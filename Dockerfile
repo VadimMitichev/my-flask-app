@@ -17,6 +17,8 @@ RUN pip install pytest
 RUN pip install safety
 RUN pip install --upgrade safety
 
+
+
 # Устанавливаем PYTHONPATH
 ENV PYTHONPATH=/app
 

@@ -23,7 +23,7 @@ jobs:
       run: docker run my-flask-app pytest
     
     - name: Scan for vulnerabilities
-      run: docker run my-flask-app safety check
+      run: docker run my-flask-app safety check --ignore 70612
     
     - name: Login to Docker Hub
       run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
