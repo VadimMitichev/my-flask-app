@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Устанавливаем pytest для запуска тестов
 RUN pip install pytest
 
+# Устанавливаем safety для проверки безопасности зависимостей
+RUN pip install safety
+
 # Устанавливаем PYTHONPATH
 ENV PYTHONPATH=/app
 
