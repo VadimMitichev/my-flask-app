@@ -15,6 +15,7 @@ RUN pip install pytest
 
 # Устанавливаем safety для проверки безопасности зависимостей
 RUN pip install safety
+RUN pip install --upgrade safety
 
 # Устанавливаем PYTHONPATH
 ENV PYTHONPATH=/app
