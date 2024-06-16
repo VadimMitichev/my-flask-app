@@ -1,0 +1,68 @@
+---
+- name: Install Docker and dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+
+- name: Add Docker GPG key
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+- name: Set up Docker repository
+  shell: echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- name: Update apt and install Docker
+  apt:
+    update_cache: yes
+    name: docker-ce docker-ce-cli containerd.io
+    state: present
+
+- name: Install Python and pip for Docker
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install Docker python module
+  pip:
+    name: docker
+    state: present
+
+- name: Copy Dockerfile template to target server
+  template:
+    src: Dockerfile.j2
+    dest: /tmp/Dockerfile
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy application code to target server
+  copy:
+    src: "{{ item }}"
+    dest: /tmp/{{ item }}
+    owner: root
+    group: root
+    mode: '0644'
+  with_items:
+    - app.py
+    - requirements.txt
+    - tests/test_app.py
+
+- name: Build Docker image on target server
+  docker_image:
+    name: my-flask-app
+    path: /tmp
+    state: present
+
+- name: Run container from Docker image
+  docker_container:
+    name: my-flask-app
+    image: my-flask-app
+    state: started
+    restart_policy: always
+    ports:
+      - "80:80"
