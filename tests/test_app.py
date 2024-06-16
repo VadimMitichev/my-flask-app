@@ -1,13 +1,13 @@
 # tests/test_app.py
 
-import pytest
-from app import app
+from ..app import app  # Измененный импорт
 
-@pytest.fixture
-def client():
-    with app.test_client() as client:
-        yield client
+def test_home_page():
+    client = app.test_client()
 
-def test_home_page(client):
+    # Пример теста на проверку статуса кода
     rv = client.get('/')
+    assert rv.status_code == 200
+
+    # Пример теста на проверку содержимого ответа
     assert b'Hello, World!' in rv.data
