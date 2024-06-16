@@ -10,6 +10,9 @@ COPY . /app
 # Устанавливаем необходимые зависимости из requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Устанавливаем pytest для запуска тестов
+RUN pip install pytest
+
 # Открываем порт 80 для доступа извне контейнера
 EXPOSE 80
 
