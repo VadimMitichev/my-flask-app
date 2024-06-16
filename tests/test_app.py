@@ -1,6 +1,6 @@
 # tests/test_app.py
 
-from ..app import app  # Измененный импорт
+from app import app  # Абсолютный импорт
 
 def test_home_page():
     client = app.test_client()

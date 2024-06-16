@@ -5,13 +5,16 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Копируем содержимое текущей директории в контейнер в /app
-COPY . .
+COPY . /app
 
 # Устанавливаем необходимые зависимости из requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Устанавливаем pytest для запуска тестов
 RUN pip install pytest
+
+# Устанавливаем PYTHONPATH
+ENV PYTHONPATH=/app
 
 # Открываем порт 80 для доступа извне контейнера
 EXPOSE 80
